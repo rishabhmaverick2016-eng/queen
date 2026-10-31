@@ -4,8 +4,8 @@
   "description": "Daily chores, self-care routines, ringing alarms and evening scorecards for queens.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#180b16",
-  "theme_color": "#180b16",
+  "background_color": "#fbfaf8",
+  "theme_color": "#fbfaf8",
   "orientation": "portrait",
   "icons": [
     {

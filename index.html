@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#231320">
+  <meta name="theme-color" content="#fbfaf8">
   <title>Queen Bloom | Daily Routine & Self-Care Haven</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,6 +97,9 @@
         </div>
       </div>
       <div class="header-actions">
+        <button id="theme-toggle-btn" class="icon-btn" title="Toggle Theme (Linen / Graphite)" aria-label="Toggle Theme">
+          <span id="theme-icon">🌙</span>
+        </button>
         <button id="test-alarm-btn" class="icon-btn" title="Test Ring & Vibration" aria-label="Test Alarm">
           <span>🔔</span>
         </button>
@@ -436,6 +439,15 @@
               </span>
               <input type="checkbox" id="pref-evening-toggle" class="custom-toggle" checked>
             </label>
+          </div>
+        </div>
+
+        <div class="feature-card mt-5">
+          <h3>Theme & Aesthetic</h3>
+          <p class="card-sub">Choose your preferred soothing aesthetic:</p>
+          <div class="settings-theme-row mt-3">
+            <button id="theme-light-btn" class="secondary-btn">☀️ Calm Linen</button>
+            <button id="theme-dark-btn" class="secondary-btn">🌙 Soft Graphite</button>
           </div>
         </div>
 
