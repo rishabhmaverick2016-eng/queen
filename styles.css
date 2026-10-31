@@ -1300,3 +1300,101 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* Privacy PIN Lock Screen */
+.pin-lock-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-page);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+.pin-card {
+  width: 100%;
+  max-width: 320px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 32px 22px;
+  text-align: center;
+  box-shadow: var(--shadow-modal);
+}
+.pin-emblem {
+  font-size: 2.2rem;
+  margin-bottom: 6px;
+}
+.pin-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.pin-sub {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.pin-dots-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 22px 0 16px;
+}
+.pin-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-card);
+  background: var(--bg-card-subtle);
+  transition: var(--transition);
+}
+.pin-dot.filled {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  transform: scale(1.15);
+}
+.pin-error-msg {
+  font-size: 0.75rem;
+  color: #c25e4c;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 240px;
+  margin: 0 auto;
+}
+.pin-key {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.pin-key:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
+}
+.pin-key:active {
+  transform: scale(0.92);
+  background: var(--accent-sand-soft);
+}
+.pin-key.pin-ghost {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}

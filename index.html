@@ -6,6 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#fbf9f5">
+  <meta name="robots" content="noindex, nofollow">
   <title>Queen Bloom | Daily Routine & Self-Care Haven</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +16,39 @@
   <link rel="stylesheet" href="styles.css?v=white-cream-final">
 </head>
 <body>
+
+  <!-- Privacy Security PIN Lock Screen -->
+  <div id="pin-lock-overlay" class="pin-lock-overlay hidden">
+    <div class="pin-card">
+      <div class="pin-emblem">👑</div>
+      <h2>Private Haven</h2>
+      <p class="pin-sub">Only for the Queen. Enter your 4-digit PIN:</p>
+      
+      <div class="pin-dots-row">
+        <div class="pin-dot" id="pdot-0"></div>
+        <div class="pin-dot" id="pdot-1"></div>
+        <div class="pin-dot" id="pdot-2"></div>
+        <div class="pin-dot" id="pdot-3"></div>
+      </div>
+      
+      <p id="pin-error-msg" class="pin-error-msg hidden">Incorrect PIN. Try again.</p>
+
+      <div class="pin-keypad">
+        <button type="button" class="pin-key" data-digit="1">1</button>
+        <button type="button" class="pin-key" data-digit="2">2</button>
+        <button type="button" class="pin-key" data-digit="3">3</button>
+        <button type="button" class="pin-key" data-digit="4">4</button>
+        <button type="button" class="pin-key" data-digit="5">5</button>
+        <button type="button" class="pin-key" data-digit="6">6</button>
+        <button type="button" class="pin-key" data-digit="7">7</button>
+        <button type="button" class="pin-key" data-digit="8">8</button>
+        <button type="button" class="pin-key" data-digit="9">9</button>
+        <button type="button" class="pin-key pin-ghost" id="pin-clear-btn">Clear</button>
+        <button type="button" class="pin-key" data-digit="0">0</button>
+        <button type="button" class="pin-key pin-ghost" id="pin-del-btn">⌫</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Full-Screen Ringing & Vibration Alarm Modal -->
   <div id="alarm-overlay" class="alarm-overlay hidden">
@@ -446,8 +480,24 @@
           <h3>Theme & Aesthetic</h3>
           <p class="card-sub">Choose your preferred soothing aesthetic:</p>
           <div class="settings-theme-row mt-3">
-            <button id="theme-light-btn" class="secondary-btn">☀️ Calm Linen</button>
-            <button id="theme-dark-btn" class="secondary-btn">🌙 Soft Graphite</button>
+            <button id="theme-light-btn" class="secondary-btn">☀️ White & Cream</button>
+            <button id="theme-dark-btn" class="secondary-btn">🌙 Soft Charcoal</button>
+          </div>
+        </div>
+
+        <div class="feature-card mt-5">
+          <h3>Privacy & PIN Security 🔒</h3>
+          <p class="card-sub">Protect your haven with a 4-digit secret PIN only for you.</p>
+          <div class="settings-toggles mt-3">
+            <label class="toggle-row">
+              <span class="toggle-text">
+                <b>PIN Lock Protection:</b> Require 4-digit PIN on app open
+              </span>
+              <input type="checkbox" id="pref-pin-toggle" class="custom-toggle">
+            </label>
+          </div>
+          <div class="mt-3">
+            <button id="change-pin-btn" class="secondary-btn w-full">Change 4-Digit Security PIN</button>
           </div>
         </div>
 

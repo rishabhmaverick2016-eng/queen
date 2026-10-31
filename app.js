@@ -217,10 +217,14 @@ function loadState() {
         soundEnabled: true,
         vibrateEnabled: true,
         eveningReminder: true,
+        pinEnabled: true,
+        pin: '2461',
         history: {}
       };
     }
     const state = JSON.parse(raw);
+    state.pinEnabled = true;
+    state.pin = '2461'; // Requested secret PIN
     // If it's a new day, archive yesterday's score and reset daily checks
     if (state.date !== today) {
       if (!state.history) state.history = {};
@@ -247,6 +251,8 @@ function loadState() {
       soundEnabled: true,
       vibrateEnabled: true,
       eveningReminder: true,
+      pinEnabled: true,
+      pin: '2461',
       history: {}
     };
   }
@@ -318,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initTheme();
+  initPinLock();
   initNavigation();
   initRibbonQuotes();
   initTaskRoutines();
@@ -976,6 +983,44 @@ function initSettings() {
     });
   }
 
+  const prefPin = document.getElementById('pref-pin-toggle');
+  const changePinBtn = document.getElementById('change-pin-btn');
+
+  if (prefPin) {
+    prefPin.checked = appState.pinEnabled !== false;
+    prefPin.addEventListener('change', () => {
+      appState.pinEnabled = prefPin.checked;
+      if (appState.pinEnabled && !appState.pin) {
+        appState.pin = '2461';
+      }
+      saveState(appState);
+      showToast(prefPin.checked ? '🔒 PIN Lock Active (PIN: 2461)' : '🔓 PIN Lock Disabled');
+    });
+  }
+
+  if (changePinBtn) {
+    changePinBtn.addEventListener('click', () => {
+      const currentPin = appState.pin || '2461';
+      const promptCurrent = prompt('Enter current 4-digit PIN:');
+      if (promptCurrent === null) return;
+      if (promptCurrent !== currentPin) {
+        alert('Incorrect current PIN.');
+        return;
+      }
+      const newPin = prompt('Enter new 4-digit PIN:');
+      if (!newPin || !/^\d{4}$/.test(newPin)) {
+        alert('PIN must be exactly 4 numbers (e.g., 2026).');
+        return;
+      }
+      appState.pin = newPin;
+      appState.pinEnabled = true;
+      if (prefPin) prefPin.checked = true;
+      saveState(appState);
+      queenAudio.playCelebration();
+      showToast(`🔒 PIN changed successfully to: ${newPin}`);
+    });
+  }
+
   if (resetTodayBtn) {
     resetTodayBtn.addEventListener('click', () => {
       appState.tasks.forEach(t => { t.completed = false; });
@@ -998,6 +1043,87 @@ function initSettings() {
         queenAudio.playCelebration();
         showToast('Default routines restored');
         setTimeout(() => location.reload(), 400);
+      }
+    });
+  }
+}
+
+// --- PIN LOCK CONTROLLER ---
+let enteredPin = '';
+
+function updatePinDots() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById(`pdot-${i}`);
+    if (dot) {
+      if (i < enteredPin.length) {
+        dot.classList.add('filled');
+      } else {
+        dot.classList.remove('filled');
+      }
+    }
+  }
+}
+
+function initPinLock() {
+  const overlay = document.getElementById('pin-lock-overlay');
+  const errorMsg = document.getElementById('pin-error-msg');
+  const isUnlocked = sessionStorage.getItem('queen_bloom_unlocked') === 'true';
+
+  if (!appState.pinEnabled || isUnlocked) {
+    if (overlay) overlay.classList.add('hidden');
+    return;
+  }
+
+  if (overlay) overlay.classList.remove('hidden');
+
+  const keys = document.querySelectorAll('.pin-key[data-digit]');
+  keys.forEach(k => {
+    k.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (enteredPin.length < 4) {
+        enteredPin += k.dataset.digit;
+        updatePinDots();
+        queenAudio.playTone('chime');
+        if (errorMsg) errorMsg.classList.add('hidden');
+
+        if (enteredPin.length === 4) {
+          const correctPin = appState.pin || '2461';
+          setTimeout(() => {
+            if (enteredPin === correctPin) {
+              sessionStorage.setItem('queen_bloom_unlocked', 'true');
+              overlay.classList.add('hidden');
+              queenAudio.playCelebration();
+              showToast('✨ Welcome to your Private Haven');
+            } else {
+              if (errorMsg) errorMsg.classList.remove('hidden');
+              queenAudio.vibrateDevice([120, 60, 120]);
+              enteredPin = '';
+              updatePinDots();
+            }
+          }, 180);
+        }
+      }
+    });
+  });
+
+  const clearBtn = document.getElementById('pin-clear-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      enteredPin = '';
+      updatePinDots();
+      if (errorMsg) errorMsg.classList.add('hidden');
+    });
+  }
+
+  const delBtn = document.getElementById('pin-del-btn');
+  if (delBtn) {
+    delBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (enteredPin.length > 0) {
+        enteredPin = enteredPin.slice(0, -1);
+        updatePinDots();
+        if (errorMsg) errorMsg.classList.add('hidden');
       }
     });
   }
