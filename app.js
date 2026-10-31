@@ -1016,7 +1016,7 @@ function applyTheme(theme) {
     document.documentElement.removeAttribute('data-theme');
     localStorage.setItem('queen_bloom_theme', 'light');
     if (themeIcon) themeIcon.textContent = '🌙';
-    if (metaTheme) metaTheme.setAttribute('content', '#fbfaf8');
+    if (metaTheme) metaTheme.setAttribute('content', '#faf9f6');
   }
 }
 
