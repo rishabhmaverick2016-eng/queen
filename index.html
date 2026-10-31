@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#231320">
+  <title>Queen Bloom | Daily Routine & Self-Care Haven</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Full-Screen Ringing & Vibration Alarm Modal -->
+  <div id="alarm-overlay" class="alarm-overlay hidden">
+    <div class="alarm-card">
+      <div class="alarm-glow-ring"></div>
+      <div class="alarm-bell-icon">🔔</div>
+      <span class="alarm-badge">GENTLE REMINDER</span>
+      <h2 id="alarm-task-title">Time for Your Self-Care!</h2>
+      <p id="alarm-task-category" class="alarm-category-tag">🌸 Self-Care & Pampering</p>
+      <p id="alarm-task-note" class="alarm-note-text">"Take a deep breath and smile. You deserve this moment."</p>
+
+      <div class="alarm-actions">
+        <button id="alarm-done-btn" class="alarm-btn done-btn">Mark Done! ✨</button>
+        <button id="alarm-snooze-btn" class="alarm-btn snooze-btn">Snooze 10 Mins ⏳</button>
+        <button id="alarm-dismiss-btn" class="alarm-btn ghost-alarm-btn">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Task Modal -->
+  <div id="task-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="task-modal-title">Add New Reminder</h3>
+        <button id="close-task-modal-btn" class="ghost-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group mb-3">
+          <label class="form-label">Reminder Name</label>
+          <input type="text" id="task-name-input" class="custom-input" placeholder="e.g., Morning Glow Skincare, Laundry, Vitamins">
+        </div>
+
+        <div class="form-row-2 mb-3">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="task-category-select" class="custom-select">
+              <option value="selfcare">🌸 Self-Care & Glow</option>
+              <option value="chore">🏡 Daily Chore & Home</option>
+              <option value="wellness">🌿 Health & Wellness</option>
+              <option value="mindful">🕯️ Relaxation & Rest</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Reminder Time</label>
+            <input type="time" id="task-time-input" class="custom-input" value="09:00">
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Ringing & Vibration Style</label>
+          <select id="task-sound-select" class="custom-select">
+            <option value="harp">🎵 Soothing Royal Harp (Ring + Buzz)</option>
+            <option value="crystal">💎 Crystal Singing Bowl (Gentle Ring + Buzz)</option>
+            <option value="bell">🔔 Golden Temple Bell (Classic Ring + Buzz)</option>
+            <option value="chime">✨ Fairy Sparkle Chime (Subtle Ring + Buzz)</option>
+          </select>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Uplifting Note (Optional)</label>
+          <input type="text" id="task-note-input" class="custom-input" placeholder="e.g., Don't rush, enjoy your warm tea!">
+        </div>
+
+        <div class="modal-footer-btns">
+          <button id="save-task-btn" class="primary-btn w-full">Save & Activate Alarm 🔔</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App Shell -->
+  <div class="app-wrapper">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <span class="app-logo-gem">👑</span>
+        <div class="brand-text">
+          <h1 class="brand-title">Queen Bloom</h1>
+          <p class="brand-subtitle">Self-Care & Daily Flow</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="test-alarm-btn" class="icon-btn" title="Test Ring & Vibration" aria-label="Test Alarm">
+          <span>🔔</span>
+        </button>
+        <button id="sound-mute-toggle" class="icon-btn" title="Sound Effects" aria-label="Toggle Sound">
+          <span id="mute-icon">🔊</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Daily Love & Motivation Ribbon -->
+    <section class="love-ribbon">
+      <div class="ribbon-card">
+        <div class="ribbon-badge-row">
+          <span class="ribbon-tag">💌 Husband's Daily Love Note</span>
+          <span id="today-date-display" class="date-tag">Today</span>
+        </div>
+        <p id="daily-love-quote" class="love-quote">"You do so much with grace. Today, prioritize yourself first—your peace and smile are the most precious things in our home."</p>
+        <button id="new-quote-btn" class="ghost-link-btn">Read another reminder ✨</button>
+      </div>
+    </section>
+
+    <!-- Quick Mini-Stats Banner -->
+    <section class="quick-overview-bar">
+      <div class="stat-pill">
+        <span class="stat-icon">✅</span>
+        <div class="stat-data">
+          <span id="tasks-done-count" class="stat-val">0 / 0</span>
+          <span class="stat-sub">Completed</span>
+        </div>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-icon">💧</span>
+        <div class="stat-data">
+          <span id="water-done-count" class="stat-val">0 / 8</span>
+          <span class="stat-sub">Glasses</span>
+        </div>
+      </div>
+      <div class="stat-pill highlight-pill" id="scorecard-quick-pill">
+        <span class="stat-icon">👑</span>
+        <div class="stat-data">
+          <span id="daily-score-mini" class="stat-val">0%</span>
+          <span class="stat-sub">Today's Score</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Navigation Content Panes -->
+    <main class="app-main">
+
+      <!-- TAB 1: DAILY FLOW & ROUTINES -->
+      <section id="tab-routines" class="tab-pane active">
+        <div class="section-title-row">
+          <div>
+            <h2>Today's Flow 📋</h2>
+            <p class="section-sub">Gentle alarms will ring & vibrate your phone when it's time.</p>
+          </div>
+          <button id="open-add-task-btn" class="primary-btn-sm">+ New Task</button>
+        </div>
+
+        <!-- Filter Pill Chips -->
+        <div class="filter-chips-row">
+          <button class="filter-chip active" data-filter="all">All Reminders</button>
+          <button class="filter-chip" data-filter="selfcare">🌸 Self-Care</button>
+          <button class="filter-chip" data-filter="chore">🏡 Chores</button>
+          <button class="filter-chip" data-filter="wellness">🌿 Health</button>
+        </div>
+
+        <!-- Task List Container -->
+        <div id="task-list-container" class="task-list">
+          <!-- Dynamically populated tasks -->
+        </div>
+
+        <!-- Empty State Prompt -->
+        <div id="empty-tasks-view" class="empty-state hidden">
+          <span class="empty-icon">🌸</span>
+          <h3>All caught up for now!</h3>
+          <p>Tap "+ New Task" above to schedule a daily chore or self-care routine with sound.</p>
+        </div>
+      </section>
+
+      <!-- TAB 2: SELF-CARE SANCTUARY -->
+      <section id="tab-selfcare" class="tab-pane">
+        <div class="section-heading">
+          <h2>Self-Care Sanctuary 🌸</h2>
+          <p>You pour into everyone else. Let this be the place that pours back into you.</p>
+        </div>
+
+        <!-- Hydration Tracker Card -->
+        <div class="feature-card water-card">
+          <div class="card-header-row">
+            <div>
+              <span class="card-kicker">HYDRATION GLOW</span>
+              <h3>Daily Water Haven (8 Glasses) 💧</h3>
+              <p class="card-sub">Hydrated skin, high energy, and feeling refreshed.</p>
+            </div>
+            <span id="water-streak-badge" class="badge-gem">💧 8/8 Goal</span>
+          </div>
+
+          <div class="water-glasses-grid" id="water-glasses-grid">
+            <!-- 8 interactive glasses -->
+          </div>
+          <div class="water-action-row">
+            <button id="add-glass-btn" class="primary-btn flex-1">+ Drank a Glass 💧</button>
+            <button id="reset-water-btn" class="ghost-btn">Reset</button>
+          </div>
+        </div>
+
+        <!-- Skincare Glow Checklist -->
+        <div class="feature-card mt-5">
+          <div class="card-header-row">
+            <div>
+              <span class="card-kicker">BEAUTY & RADIANCE</span>
+              <h3>Glow Rituals ✨</h3>
+              <p class="card-sub">Simple AM & PM moments for your skin and hair.</p>
+            </div>
+          </div>
+
+          <div class="skincare-checklist mt-3">
+            <label class="glow-check-item">
+              <input type="checkbox" id="skin-am-cleanse" class="glow-checkbox">
+              <span class="glow-text">
+                <b>Morning Fresh:</b> Gentle cleanse, hydrating toner & vitamin C serum
+              </span>
+            </label>
+            <label class="glow-check-item">
+              <input type="checkbox" id="skin-am-spf" class="glow-checkbox">
+              <span class="glow-text">
+                <b>Sun Protection:</b> Moisturizer & SPF sunscreen protection
+              </span>
+            </label>
+            <label class="glow-check-item">
+              <input type="checkbox" id="skin-hair-brush" class="glow-checkbox">
+              <span class="glow-text">
+                <b>Hair Love:</b> 2-minute mindful hair brushing & gentle head massage
+              </span>
+            </label>
+            <label class="glow-check-item">
+              <input type="checkbox" id="skin-pm-glow" class="glow-checkbox">
+              <span class="glow-text">
+                <b>Evening Unwind:</b> Night cream, lip balm & relaxing pillow mist
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 2-Minute Breathing & Stress Melter -->
+        <div class="feature-card breathing-card mt-5">
+          <div class="card-header-row">
+            <div>
+              <span class="card-kicker">MIND & CALM</span>
+              <h3>2-Minute Zen Breath 🕯️</h3>
+              <p class="card-sub">Feeling overwhelmed? Melt away the noise in 120 seconds.</p>
+            </div>
+          </div>
+
+          <div class="breathing-stage">
+            <div class="breathing-circle" id="breath-circle">
+              <span id="breath-instruction" class="breath-text">Tap to Start</span>
+              <span id="breath-timer" class="breath-sub-timer">02:00</span>
+            </div>
+          </div>
+
+          <button id="start-breath-btn" class="secondary-btn w-full mt-3">Begin Peaceful Breath ✨</button>
+        </div>
+
+        <!-- Pampering Pass Voucher -->
+        <div class="feature-card voucher-card mt-5">
+          <span class="voucher-tag">QUEEN'S PRIVILEGE</span>
+          <h3>Need a Break from Chores Today?</h3>
+          <p>You have permission to take a 30-minute nap, read with your favorite tea, or leave dishes for later. Perfection is not required!</p>
+          <button id="claim-pamper-pass-btn" class="pamper-cta-btn">Claim 30-Min Rest Pass 🛋️</button>
+        </div>
+      </section>
+
+      <!-- TAB 3: DAILY SCORECARD & HOW SHE DID -->
+      <section id="tab-scorecard" class="tab-pane">
+        <div class="section-heading">
+          <h2>Daily Score & Praise 📊</h2>
+          <p>Celebrate everything you accomplished today. See your score, rewards, and feedback.</p>
+        </div>
+
+        <!-- The Score Card Hero -->
+        <div class="scorecard-hero">
+          <div class="score-circle-wrap">
+            <svg class="score-svg" viewBox="0 0 160 160">
+              <circle class="score-bg-ring" cx="80" cy="80" r="70"></circle>
+              <circle id="score-progress-ring" class="score-fg-ring" cx="80" cy="80" r="70"></circle>
+            </svg>
+            <div class="score-center-text">
+              <span id="score-percentage-text" class="score-number">0%</span>
+              <span class="score-caption">DAILY SCORE</span>
+            </div>
+          </div>
+
+          <div class="score-feedback-box">
+            <div class="feedback-badge" id="score-tier-badge">Glow Level</div>
+            <h3 id="score-headline">Starting Your Journey</h3>
+            <p id="score-paragraph">Complete your routines and self-care steps to unlock your royal feedback tonight.</p>
+          </div>
+        </div>
+
+        <!-- Breakdown Grid -->
+        <div class="breakdown-grid mt-5">
+          <div class="breakdown-card">
+            <span class="b-icon">🌸</span>
+            <div class="b-val" id="selfcare-score-text">0 / 0</div>
+            <div class="b-lbl">Self-Care Done</div>
+          </div>
+          <div class="breakdown-card">
+            <span class="b-icon">🏡</span>
+            <div class="b-val" id="chores-score-text">0 / 0</div>
+            <div class="b-lbl">Daily Chores Done</div>
+          </div>
+          <div class="breakdown-card">
+            <span class="b-icon">💧</span>
+            <div class="b-val" id="water-score-text">0%</div>
+            <div class="b-lbl">Hydration Target</div>
+          </div>
+          <div class="breakdown-card">
+            <span class="b-icon">✨</span>
+            <div class="b-val" id="skincare-score-text">0 / 4</div>
+            <div class="b-lbl">Glow Rituals</div>
+          </div>
+        </div>
+
+        <!-- Today's Mood & Energy Check-in -->
+        <div class="feature-card mt-5">
+          <h3>How Did Today Feel Overall? 💭</h3>
+          <p class="card-sub">Record your energy so you can honor what your body needed.</p>
+          
+          <div class="mood-selector-row mt-3">
+            <button class="mood-btn" data-mood="radiant">
+              <span class="m-emoji">🌟</span>
+              <span class="m-name">Radiant</span>
+            </button>
+            <button class="mood-btn" data-mood="peaceful">
+              <span class="m-emoji">🌸</span>
+              <span class="m-name">Peaceful</span>
+            </button>
+            <button class="mood-btn" data-mood="busy">
+              <span class="m-emoji">🏃‍♀️</span>
+              <span class="m-name">Busy Bee</span>
+            </button>
+            <button class="mood-btn" data-mood="tired">
+              <span class="m-emoji">🛋️</span>
+              <span class="m-name">Tired/Rest</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Trophies & Milestones Earned -->
+        <div class="feature-card mt-5">
+          <h3>Today's Crown Badges 🏆</h3>
+          <p class="card-sub">Automatic achievements unlocked by taking care of yourself.</p>
+          
+          <div class="badges-row mt-3">
+            <div class="badge-item locked" id="badge-water">
+              <span class="b-emoji">💧</span>
+              <span class="b-title">Hydration Queen</span>
+              <span class="b-sub">8 Glasses</span>
+            </div>
+            <div class="badge-item locked" id="badge-glow">
+              <span class="b-emoji">✨</span>
+              <span class="b-title">Glow Goddess</span>
+              <span class="b-sub">Skincare AM+PM</span>
+            </div>
+            <div class="badge-item locked" id="badge-chores">
+              <span class="b-emoji">🏡</span>
+              <span class="b-title">Home Magician</span>
+              <span class="b-sub">Chores Done</span>
+            </div>
+            <div class="badge-item locked" id="badge-zen">
+              <span class="b-emoji">🕯️</span>
+              <span class="b-title">Zen Mind</span>
+              <span class="b-sub">Calm Breathing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Share Score with Husband on WhatsApp -->
+        <div class="feature-card mt-5">
+          <h3>Celebrate Your Day with Husband 💌</h3>
+          <p class="card-sub">Send him a 1-tap summary of your daily triumphs and get pampered tonight!</p>
+          <button id="whatsapp-summary-btn" class="whatsapp-btn w-full mt-3">
+            💬 Send Today's Score to Husband on WhatsApp
+          </button>
+        </div>
+
+        <!-- Past 7 Days History -->
+        <div class="feature-card mt-5">
+          <h3>Past 7 Days History 🗓️</h3>
+          <div class="history-bars-chart mt-3" id="history-chart">
+            <!-- 7 bars dynamically rendered -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: SETTINGS & SOUND PREFERENCES -->
+      <section id="tab-settings" class="tab-pane">
+        <div class="section-heading">
+          <h2>App & Sound Settings ⚙️</h2>
+          <p>Customize ringtones, vibration strength, and daily notifications.</p>
+        </div>
+
+        <div class="feature-card">
+          <h3>Alarm Sound & Vibration Test</h3>
+          <p class="card-sub">Click below to hear your ringtone and feel your phone vibrate.</p>
+          <div class="settings-test-row mt-3">
+            <select id="preview-sound-select" class="custom-select flex-1">
+              <option value="harp">🎵 Soothing Royal Harp</option>
+              <option value="crystal">💎 Crystal Singing Bowl</option>
+              <option value="bell">🔔 Golden Temple Bell</option>
+              <option value="chime">✨ Fairy Sparkle Chime</option>
+            </select>
+            <button id="play-sound-preview-btn" class="secondary-btn">Test Alarm 🔔</button>
+          </div>
+        </div>
+
+        <div class="feature-card mt-5">
+          <h3>Notification Preferences</h3>
+          <div class="settings-toggles mt-3">
+            <label class="toggle-row">
+              <span class="toggle-text">
+                <b>Device Vibration:</b> Vibrate phone when reminder rings
+              </span>
+              <input type="checkbox" id="pref-vibrate-toggle" class="custom-toggle" checked>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-text">
+                <b>Audible Ringing:</b> Play soothing chime when reminder fires
+              </span>
+              <input type="checkbox" id="pref-sound-toggle" class="custom-toggle" checked>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-text">
+                <b>End-of-Day Evening Summary:</b> Prompt daily score at 9:00 PM
+              </span>
+              <input type="checkbox" id="pref-evening-toggle" class="custom-toggle" checked>
+            </label>
+          </div>
+        </div>
+
+        <div class="feature-card mt-5">
+          <h3>Reset or Clear Data</h3>
+          <p class="card-sub">Restore default tasks and reset today's checklist.</p>
+          <button id="reset-today-btn" class="ghost-btn w-full mt-2">Reset Today's Checks Only</button>
+          <button id="restore-defaults-btn" class="danger-btn w-full mt-2">Restore All Default Routines</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+      <button class="nav-tab active" data-target="tab-routines">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">Flow</span>
+      </button>
+      <button class="nav-tab" data-target="tab-selfcare">
+        <span class="nav-icon">🌸</span>
+        <span class="nav-label">Self-Care</span>
+      </button>
+      <button class="nav-tab" data-target="tab-scorecard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Score</span>
+      </button>
+      <button class="nav-tab" data-target="tab-settings">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Settings</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Toast Notification Popup -->
+  <div id="bloom-toast" class="bloom-toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
