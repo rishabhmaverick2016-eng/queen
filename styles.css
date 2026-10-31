@@ -1,39 +1,39 @@
 /* Queen Bloom | Minimalist Daily Routine & Self-Care Haven */
 :root {
-  /* Ultra-Light Airy Sanctuary Palette (Bright, Soft, Soothing) */
-  --bg-page: #faf9f6;          /* Soft alabaster linen */
-  --bg-card: #ffffff;          /* Pure crisp white */
-  --bg-card-subtle: #f7f6f2;   /* Soft warm ivory */
-  --bg-card-hover: #f1efea;
+  /* Warm White & Cream Luxury Palette (Zero Wine, Zero Red, Clean & Pure) */
+  --bg-page: #fbf9f5;          /* Warm soft cream */
+  --bg-card: #ffffff;          /* Pure clean white */
+  --bg-card-subtle: #f5f2eb;   /* Delicate light cream */
+  --bg-card-hover: #efebe2;
   --bg-input: #ffffff;
-  --bg-overlay: rgba(247, 246, 242, 0.85); /* Luminous frosted overlay */
+  --bg-overlay: rgba(251, 249, 245, 0.90); /* Luminous cream frosted glass */
   
-  --border-subtle: #eae7e1;
-  --border-card: #e5e1d8;
-  --border-focus: #527968;
+  --border-subtle: #eae5db;
+  --border-card: #e4ddd1;
+  --border-focus: #8a7356;
   
-  --text-primary: #2b2f33;     /* Soft slate graphite */
-  --text-secondary: #656b72;   /* Gentle neutral */
-  --text-muted: #9ba0a6;
+  --text-primary: #2d2e30;     /* Clean soft graphite */
+  --text-secondary: #67696f;   /* Neutral slate */
+  --text-muted: #9c9ea4;
   
-  /* Calming, Soothing Light Botanical Accents */
-  --accent-primary: #527968;   /* Soft calming sage green */
-  --accent-primary-hover: #436556;
-  --accent-sage: #527968;
-  --accent-sage-soft: #edf5f0; /* Gentle mint mist */
+  /* Warm Champagne Sand & Soft Botanical Accents */
+  --accent-primary: #8a7356;   /* Warm champagne gold */
+  --accent-primary-hover: #756147;
+  --accent-sand: #8a7356;
+  --accent-sand-soft: #f5efe6; /* Soft warm cream */
   
-  --accent-terracotta: #b56f64; /* Soft warm rose / terracotta */
-  --accent-terracotta-soft: #faf0ee;
+  --accent-sage: #537766;      /* Subtle serene botanical sage */
+  --accent-sage-soft: #edf4f0;
   
-  --accent-sand: #a18563;      /* Warm golden sand */
-  --accent-sand-soft: #faf5ee;
-
-  --accent-water: #4a8ebf;     /* Fresh water sky */
-  --accent-water-soft: #edf6fc;
+  --accent-stone: #787b80;     /* Clean neutral stone */
+  --accent-stone-soft: #f2f3f4;
   
-  --shadow-subtle: 0 1px 4px rgba(45, 55, 50, 0.03), 0 3px 12px rgba(45, 55, 50, 0.02);
-  --shadow-card: 0 2px 10px rgba(45, 55, 50, 0.04);
-  --shadow-modal: 0 16px 44px rgba(45, 55, 50, 0.09);
+  --accent-water: #478ebd;     /* Clean clear water */
+  --accent-water-soft: #edf5fc;
+  
+  --shadow-subtle: 0 1px 4px rgba(60, 50, 40, 0.03), 0 3px 12px rgba(60, 50, 40, 0.02);
+  --shadow-card: 0 2px 10px rgba(60, 50, 40, 0.04);
+  --shadow-modal: 0 16px 44px rgba(60, 50, 40, 0.09);
   
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -45,31 +45,30 @@
   --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
-/* Minimalist Dark Mode (Soft Charcoal & Muted Sage) */
+/* Minimalist Dark Mode (Soft Charcoal & Warm Sand) */
 [data-theme="dark"] {
-  --bg-page: #141517;
-  --bg-card: #1c1e21;
-  --bg-card-subtle: #24272b;
-  --bg-card-hover: #26292d;
-  --bg-input: #1a1b1d;
-  --bg-overlay: rgba(15, 17, 19, 0.8);
+  --bg-page: #151617;
+  --bg-card: #1d1f21;
+  --bg-card-subtle: #25282b;
+  --bg-card-hover: #292c30;
+  --bg-input: #1b1c1e;
+  --bg-overlay: rgba(16, 17, 18, 0.85);
   
-  --border-subtle: #2b2e32;
-  --border-card: #2e3136;
-  --border-focus: #d1d5db;
+  --border-subtle: #2c2f33;
+  --border-card: #303338;
+  --border-focus: #c4ab89;
   
   --text-primary: #f0f1f2;
   --text-secondary: #a2a7ad;
   --text-muted: #6f747b;
   
-  --accent-primary: #ededed;
-  --accent-primary-hover: #ffffff;
+  --accent-primary: #d6be9f;
+  --accent-primary-hover: #e8d4ba;
+  --accent-sand: #c4ab89;
+  --accent-sand-soft: #2a251e;
+  
   --accent-sage: #6c937f;
   --accent-sage-soft: #1f2b24;
-  --accent-terracotta: #c48377;
-  --accent-terracotta-soft: #2e201e;
-  --accent-sand: #b89b7a;
-  --accent-sand-soft: #29241f;
 
   --accent-water: #6aa8d9;
   --accent-water-soft: #1a2836;
@@ -458,7 +457,7 @@ body {
   transition: var(--transition);
 }
 .task-delete-btn:hover {
-  color: var(--accent-terracotta);
+  color: var(--text-primary);
 }
 
 /* Empty State */
@@ -1199,14 +1198,19 @@ body {
   border-color: var(--border-focus);
 }
 .danger-btn {
-  background: var(--accent-terracotta-soft);
-  border: 1px solid var(--accent-terracotta);
-  color: var(--accent-terracotta);
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  color: var(--text-secondary);
   border-radius: var(--radius-full);
   padding: 8px 16px;
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
+  transition: var(--transition);
+}
+.danger-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
 }
 
 .w-full { width: 100%; }

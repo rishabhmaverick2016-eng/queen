@@ -1,4 +1,4 @@
-const CACHE_NAME = 'queen-bloom-v2';
+const CACHE_NAME = 'queen-bloom-v3-white-cream';
 const ASSETS = [
   './',
   './index.html',

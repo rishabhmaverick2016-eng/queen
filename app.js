@@ -1003,7 +1003,7 @@ function initSettings() {
   }
 }
 
-// Minimalist Theme Handler (Calm Linen Light & Soft Graphite Dark)
+// Minimalist Theme Handler (Warm White & Cream Light & Soft Charcoal Dark)
 function applyTheme(theme) {
   const themeIcon = document.getElementById('theme-icon');
   const metaTheme = document.querySelector('meta[name="theme-color"]');
@@ -1011,17 +1011,21 @@ function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', 'dark');
     localStorage.setItem('queen_bloom_theme', 'dark');
     if (themeIcon) themeIcon.textContent = '☀️';
-    if (metaTheme) metaTheme.setAttribute('content', '#141517');
+    if (metaTheme) metaTheme.setAttribute('content', '#151617');
   } else {
     document.documentElement.removeAttribute('data-theme');
     localStorage.setItem('queen_bloom_theme', 'light');
     if (themeIcon) themeIcon.textContent = '🌙';
-    if (metaTheme) metaTheme.setAttribute('content', '#faf9f6');
+    if (metaTheme) metaTheme.setAttribute('content', '#fbf9f5');
   }
 }
 
 function initTheme() {
-  const savedTheme = localStorage.getItem('queen_bloom_theme') || 'light';
+  let savedTheme = localStorage.getItem('queen_bloom_theme');
+  if (savedTheme !== 'dark') {
+    savedTheme = 'light';
+    localStorage.setItem('queen_bloom_theme', 'light');
+  }
   applyTheme(savedTheme);
 
   const toggleBtn = document.getElementById('theme-toggle-btn');
@@ -1031,7 +1035,7 @@ function initTheme() {
       const next = isDark ? 'light' : 'dark';
       applyTheme(next);
       queenAudio.playTone('chime');
-      showToast(next === 'dark' ? '🌙 Soft Graphite Theme' : '☀️ Calm Linen Theme');
+      showToast(next === 'dark' ? '🌙 Soft Charcoal Theme' : '☀️ White & Cream Theme');
     });
   }
 
@@ -1041,14 +1045,14 @@ function initTheme() {
     lightBtn.addEventListener('click', () => {
       applyTheme('light');
       queenAudio.playTone('chime');
-      showToast('☀️ Calm Linen Theme Active');
+      showToast('☀️ White & Cream Active');
     });
   }
   if (darkBtn) {
     darkBtn.addEventListener('click', () => {
       applyTheme('dark');
       queenAudio.playTone('chime');
-      showToast('🌙 Soft Graphite Theme Active');
+      showToast('🌙 Soft Charcoal Theme Active');
     });
   }
 }
